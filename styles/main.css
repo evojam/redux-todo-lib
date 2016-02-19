@@ -20,7 +20,7 @@ my-app {
     width: 960px;
 }
 
-add-item,
+.add-item,
 filters,
 my-app,
 todo-list {
@@ -58,13 +58,13 @@ todo-list {
     display: block;
 }
 
-add-item,
+.add-item,
 .todo {
     display: flex;
 }
 
-add-item[itemtype=Todo] button,
-add-item[itemtype=Todo] input,
+.add-item.add-todo button,
+.add-item.add-todo input,
 .todo-preview,
 .todo button {
     border: 0;
@@ -77,16 +77,16 @@ add-item[itemtype=Todo] input,
     padding: 5px 20px;
 }
 
-add-item[itemtype=Todo] input,
+.add-item.add-todo input,
 .todo-preview:first-child {
     border-top: 1px dashed rgba(221, 170, 17, .8);
 }
 
-add-item[itemtype=Todo] button span {
+.add-item.add-todo button span {
     display: none;
 }
 
-add-item[itemtype=Todo] input {
+.add-item.add-todo input {
     background-color: rgba(255, 255, 220, .8);
     box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.8);
 }
@@ -99,13 +99,13 @@ add-item[itemtype=Todo] input {
     background-color: rgba(221, 170, 17, .3);
 }
 
-add-item[itemtype=Todo] input,
+.add-item.add-todo input,
 .todo .toggle {
     text-align: left;
     width: calc(100% - 2em - 10px);
 }
 
-add-item[itemtype=Todo] button,
+.add-item.add-todo button,
 .todo .remove {
     background-color: transparent;
     border: 0;
@@ -115,19 +115,21 @@ add-item[itemtype=Todo] button,
     width: calc(2em + 10px);
 }
 
-add-item[itemtype=Todo] button {
+.add-item.add-todo button {
     display: block;
 }
 
+.todo .remove span {
+    display: none;
+}
 
-
-add-item[itemtype=Todo] button:before {
+.add-item.add-todo button:before {
     color: rgba(110, 221, 10, .6);
     content: "\f216";
     font-weight: 700;
 }
 
-add-item[itemtype=Todo] button:hover:before {
+.add-item.add-todo button:hover:before {
     color: rgb(110, 221, 10);
 }
 

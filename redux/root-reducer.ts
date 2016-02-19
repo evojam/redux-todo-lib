@@ -44,7 +44,7 @@ function todoListsReducer(state: IAppState, action): ITodoList[] {
     switch (action.type) {
 
         case ActionType.AddTodo:
-            return todoListMapReducer(state, addTodosReducer(action));
+            return todoListMapReducer(state, addTodoReducer(action));
 
         case ActionType.RemoveTodo:
             return todoListMapReducer(state, removeTodoReducer(action));
@@ -101,7 +101,15 @@ function removeTodoListReducer(action: ItemStateAction, todoLists: ITodoList[]):
 }
 
 function todoListMapReducer(state: IAppState, reducer: ITodoReducer): ITodoList[] {
-    return state.todoLists.map(todoReducerComposer(state.currentListId, reducer));
+    // TODO: Dropping functional implementation as it breaks NG2 application
+    // return state.todoLists.map(todoReducerComposer(state.currentListId, reducer));
+    // FIXME: Returned array must be ref to previous version or whole HTML is rebuild
+    const todoLists = state.todoLists;
+    const composer = todoReducerComposer(state.currentListId, reducer);
+    todoLists.forEach((todoList, i) => {
+        todoLists[i] = composer(todoLists[i]);
+    });
+    return todoLists;
 }
 
 interface ITodoListReducer {
@@ -109,9 +117,16 @@ interface ITodoListReducer {
 }
 
 function todoReducerComposer(currentListId: string, reducer: ITodoReducer): ITodoListReducer {
+    // TODO: Dropping functional implementation as it breaks NG2 application
+    //return (todoList: ITodoList): ITodoList => Maybe.fromNull(currentListId)
+    //    .filter(listId => todoList.id === listId)
+    //    .map(listId => ({id: listId, todos: reducer(todoList.todos), title: todoList.title}))
+    //    .orJust(todoList);
+    // FIXME: Returned TodoList must be ref to previous version or whole HTML is rebuild
     return (todoList: ITodoList): ITodoList => Maybe.fromNull(currentListId)
         .filter(listId => todoList.id === listId)
-        .map(listId => ({id: listId, todos: reducer(todoList.todos), title: todoList.title}))
+        // FIXME: Return reference due to NG2 issues
+        .map(listId => Object.assign(todoList, {id: listId, todos: reducer(todoList.todos)}))
         .orJust(todoList);
 }
 
@@ -119,7 +134,7 @@ interface ITodoReducer {
     (todos: ITodo[]): ITodo[];
 }
 
-function addTodosReducer(todo: AddTodoAction): ITodoReducer {
+function addTodoReducer(todo: AddTodoAction): ITodoReducer {
     return (todos: ITodo[]): ITodo[] => Array({
         id: todo.id,
         text: todo.text,

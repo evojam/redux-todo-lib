@@ -45,10 +45,6 @@ todo-list {
     width: 49%;
 }
 
-.todo-lists-list-item.active {
-    background-color: rgba(170, 221, 17, .4);
-}
-
 .todo-list {
     list-style-type: none;
     padding: 0;
@@ -223,4 +219,27 @@ filters {
 .active .todo-list-item-header .cancel,
 .active .todo-list-item-header .remove {
     display: block;
+}
+
+.todo-lists-list-item.active {
+    background-color: rgb(221, 241, 159);
+    border: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    z-index: 200;
+    margin: 0;
+}
+
+editable-list { display: block; }
+
+.todo-lists-list-item.active .todo-list-item-header,
+.todo-lists-list-item.active editable-list {
+    max-width: 90%;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }

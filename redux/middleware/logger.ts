@@ -1,7 +1,7 @@
 import { IAppState } from '../app-state';
-import { IMiddleware } from 'redux';
+import { Middleware } from 'redux';
 
-export const logger: IMiddleware<IAppState> =
+export const logger: Middleware =
     store => next => action => {
         console.groupCollapsed('Redux middleware logger:');
         console.debug('Prev state: %O', store.getState());

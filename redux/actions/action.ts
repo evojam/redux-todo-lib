@@ -1,4 +1,4 @@
-import { IAction } from 'redux';
+import { Action } from 'redux';
 
 export enum ActionType {
     AddTodo,
@@ -10,6 +10,6 @@ export enum ActionType {
     SetFilter
 }
 
-export interface IAppAction extends IAction {
+export interface IAppAction extends Action {
     type: ActionType;
 }

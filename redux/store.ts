@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, createStore, IStoreEnhancer, Store } from 'redux';
+import { applyMiddleware, compose, createStore, Middleware, StoreEnhancer, Store } from 'redux';
 
 import { IAppState } from './app-state';
 import { TodoActions } from './todo-actions';
@@ -10,9 +10,13 @@ import { Maybe, Identity } from 'monet';
 
 // Add support for Redux Dev Tools:
 // See: https://github.com/zalmoxisus/redux-devtools-extension
+
+function applyDevTools(devTools: () => Middleware) {
+    return (appliedMiddleware: StoreEnhancer): StoreEnhancer => Maybe.fromNull(devTools)
+        .map(devToolsExtension => compose(appliedMiddleware, devToolsExtension()))
+        .orJust(appliedMiddleware);
+}
+
 export const store: Store<IAppState> = Identity(applyMiddleware(logger))
-    .map(middleware => Maybe.fromNull(window.devToolsExtension)
-        .map(devToolsExtension =>
-            compose<IStoreEnhancer<IAppState>>(middleware, devToolsExtension<IAppState>()))
-        .orJust(middleware))
+    .map(applyDevTools(window.devToolsExtension))
     .get()(createStore)(rootReducer, getInitialState());
